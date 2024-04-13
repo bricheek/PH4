@@ -1,0 +1,3 @@
+node_modules/
+firebase.config.ts
+service-account-key.ts
