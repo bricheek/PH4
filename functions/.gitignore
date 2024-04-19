@@ -1,3 +1,3 @@
 node_modules/
 firebase.config.ts
-service-account-key.ts
+service-account-key.json

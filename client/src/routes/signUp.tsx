@@ -1,7 +1,8 @@
-import { signUpUser } from "../firebase/firebase";
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import reactLogo from '.././assets/react.svg'
 import { useNavigate } from 'react-router-dom'
+import { sendData } from './apiService'
 import '.././App.css'
 
 
@@ -26,12 +27,15 @@ function SignUp () {
         event.preventDefault()
         try {
           // Send the email and password to firebase
-          const userCredential = await signUpUser(userName, email, password)
-    
+          const auth = getAuth()
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password)
           if (userCredential) {
             resetFormFields()
             setIsError(false)
             navigate('/profile')
+            const token = userCredential.user.getIdToken()
+            sendData(userName, token)
+            //Todo:  refactor all this to be in an auth section.
           }
         } catch (error: any) {
             setIsError(true)

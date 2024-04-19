@@ -5,7 +5,7 @@ import { AuthContext } from './context/auth-context'
 import RequireAuth from './components/require-auth'
 import Home from './routes/home'
 import Profile from './routes/profile'
-import SignUp from './routes/signup'
+import SignUp from './routes/signUp'
 
 function App() {
   const { currentUser } = useContext(AuthContext)

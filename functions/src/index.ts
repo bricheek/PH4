@@ -1,20 +1,18 @@
+import { fbapp, fbadmin } from '../firebase-config'
+
 import express from 'express';
-import serviceAccount  from './service-account-key';
-import admin from 'firebase-admin'
-import authenticateUser from './middleware/authenticateUser';
+import cors from 'cors';
+//import authenticateUser from './middleware/authenticateUser';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} from 'firebase/auth'
-import { Auth } from 'firebase-admin/auth';
-
-
+//import { Auth } from 'firebase-admin/auth';
 const app = express();
+app.use(cors())
 const port = 3000;
-admin.initializeApp({
-    credential: admin.credential.cert(JSON.stringify(serviceAccount))
-});
+
 
 app.post('/register', (req, res) => {
     const {  email, password } = req.body;
-    admin.auth().createUser({
+    fbadmin.auth().createUser({
         email: email,
         password: password
     }).then((userRecord) => {
@@ -29,7 +27,7 @@ app.post('/register', (req, res) => {
 
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
-    const auth = getAuth(app)
+    const auth = getAuth(fbapp)
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       console.log('Successfully authenticated user:', userCredential.user.uid);
@@ -39,4 +37,8 @@ app.post('/login', (req, res) => {
       console.log('Error authenticating user:', error);
       res.status(401).json({ error: 'Invalid credentials' });
     });
+  });
+
+  app.listen(port, () => {
+    console.log(`server is up on port ${port}`);
   });

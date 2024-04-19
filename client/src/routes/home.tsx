@@ -1,7 +1,7 @@
 
 import { ChangeEvent, FormEvent, useState } from 'react'
 import reactLogo from '.././assets/react.svg'
-import { signInUser } from '../firebase/firebase'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import '.././App.css'
 
@@ -26,9 +26,8 @@ function Home() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
-      // Send the email and password to firebase
-      const userCredential = await signInUser(email, password)
-
+      const auth = getAuth()
+      const userCredential = await signInWithEmailAndPassword(auth, email, password)
       if (userCredential) {
         resetFormFields()
         setIsError(false)
