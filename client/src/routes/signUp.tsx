@@ -2,7 +2,7 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import reactLogo from '.././assets/react.svg'
 import { useNavigate } from 'react-router-dom'
-import { sendData } from './apiService'
+import { sendData } from '../apiService'
 import '.././App.css'
 
 
@@ -33,8 +33,8 @@ function SignUp () {
             resetFormFields()
             setIsError(false)
             navigate('/profile')
-            const token = userCredential.user.getIdToken()
-            sendData(userName, token)
+            //const token = userCredential.user.getIdToken() //interceptor handles this?
+            sendData(userName)
             //Todo:  refactor all this to be in an auth section.
           }
         } catch (error: any) {

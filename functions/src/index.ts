@@ -4,7 +4,9 @@ import express from 'express';
 import cors from 'cors';
 //import authenticateUser from './middleware/authenticateUser';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} from 'firebase/auth'
+import authenticateUser from './middleware/authenticateUser';
 //import { Auth } from 'firebase-admin/auth';
+import * as send from './routes/send';
 const app = express();
 app.use(cors())
 const port = 3000;
@@ -38,6 +40,8 @@ app.post('/login', (req, res) => {
       res.status(401).json({ error: 'Invalid credentials' });
     });
   });
+
+  app.use('/send', send.router)
 
   app.listen(port, () => {
     console.log(`server is up on port ${port}`);
